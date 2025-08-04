@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Scientific Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="calcFavicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <!-- Bootstrap 5 Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+        }
+
+        .calculator-card {
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(60, 72, 88, 0.15);
+            border: 2px solid #6366f1;
+            background: #fff;
+            padding: 32px 28px 28px 28px;
+        }
+
+        .calculator-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6366f1;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        .memorypart {
+            background: #f3f4f6;
+            border-radius: 12px;
+            border: 1.5px solid #d1d5db;
+            padding: 18px 16px;
+            margin-top: 8px;
+        }
+
+        .dropmenu {
+            min-width: 220px;
+        }
+
+        .diplayarea input {
+            border: 2px solid #6366f1;
+            border-radius: 8px;
+            background: #f3f4f6;
+        }
+
+        .btn-light {
+            border-radius: 8px !important;
+        }
+
+        .table-bordered {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .table-bordered td {
+            border: 1px solid #d1d5db !important;
+        }
+
+        .btn-primary {
+            background: #6366f1;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+        }
+
+        .second-active {
+            background: #6366f1 !important;
+            color: #fff !important;
+            border: 2px solid #4338ca !important;
+        }
+
+        .secondInverse-active {
+            background: #6366f1 !important;
+            color: #fff !important;
+            border: 2px solid #4338ca !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center">
+        <div class="row w-100 justify-content-center align-items-start">
+            <!-- Calculator Card -->
+            <div class="col-12 col-md-7 col-lg-5 mb-4 mb-lg-0 d-flex justify-content-center">
+                <div class="calculator-card w-100">
+                    <div class="calculator-title">Scientific Calculator</div>
+                    <!-- Display -->
+                    <div class="diplayarea mb-3">
+                        <input id="calculations" type="text" class="form-control text-end fs-4" value="0" readonly>
+                    </div>
+                    <!-- Angle + F-E -->
+                    <div class="d-flex mb-2">
+                        <button type="button" id="angleModeBtn" class="btn btn-light me-2"
+                            onclick="toggleAngleMode()">DEG</button>
+                        <button type="button" class="btn btn-light" onclick="toggleExponential()">F-E</button>
+                    </div>
+                    <!-- Memory Buttons -->
+                    <div class="d-flex mb-2 flex-wrap gap-1">
+                        <button class="btn btn-light" onclick="memoryClear()">MC</button>
+                        <button class="btn btn-light" onclick="memoryRecall()">MR</button>
+                        <button class="btn btn-light" onclick="memoryAdd()">M+</button>
+                        <button class="btn btn-light" onclick="memorySubtract()">M-</button>
+                        <button class="btn btn-light" onclick="memoryStore()">MS</button>
+                    </div>
+
+                    <!-- Trig & Function Dropdowns -->
+                    <div class="d-flex gap-2 mb-2 flex-wrap">
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Trigonometry
+                            </button>
+                            <div class="dropdown-menu p-0 dropmenu">
+                                <div class="container-fluid">
+                                    <div class="row g-2">
+                                        <div class="col-3"><button class="btn btn-light w-100" id="secondInverseBtn"
+                                                onclick="toggleSecondInverse()">2<sup>nd</sup></button>
+                                        </div>
+                                        <div class="col-3"><button class="btn btn-light w-100" id="sin"
+                                                onclick="calculateTrig('sin')">sin</button></div>
+                                        <div class="col-3"><button class="btn btn-light w-100" id="cos"
+                                                onclick="calculateTrig('cos')">cos</button></div>
+                                        <div class="col-3"><button class="btn btn-light w-100" id="tan"
+                                                onclick="calculateTrig('tan')">tan</button></div>
+                                        <div class="col-3"><button class="btn btn-light w-100" id="hyperbolicBtn"
+                                                onclick="toggleHyperbolic()">hyp</button></div>
+                                        <div class="col-3"><button class="btn btn-light w-100" id="sec"
+                                                onclick="calculateTrig('sec')">sec</button></div>
+                                        <div class="col-3"><button class="btn btn-light w-100" id="csc"
+                                                onclick="calculateTrig('csc')">csc</button></div>
+                                        <div class="col-3"><button class="btn btn-light w-100" id="cot"
+                                                onclick="calculateTrig('cot')">cot</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Function
+                            </button>
+                            <div class="dropdown-menu p-0 dropmenu">
+                                <div class="container-fluid">
+                                    <div class="row g-2">
+                                        <div class="col-4"><button class="btn btn-light w-100"
+                                                onclick="basicFun('absolute')">|x|</button></div>
+                                        <div class="col-4"><button class="btn btn-light w-100"
+                                                onclick="basicFun('floor')">&#8970;x&#8971;</button>
+                                        </div>
+                                        <div class="col-4"><button class="btn btn-light w-100"
+                                                onclick="basicFun('ceil')">&#8968;x&#8969;</button>
+                                        </div>
+
+                                        <div class="col-4"><button class="btn btn-light w-100"
+                                                onclick="basicFun('random')">rand</button></div>
+                                        <div class="col-4"><button class="btn btn-light w-100"
+                                                onclick="basicFun('toDMS')">&rarr;dms</button></div>
+                                        <div class="col-4"><button class="btn btn-light w-100"
+                                                onclick="basicFun('toDEG')">&rarr;deg</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Keypad -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0">
+                            <tbody class="bg-light">
+                                <tr>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            id="secondBtn" onclick="toggleSecond()">2<sup>nd</sup></button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('pi')">&pi;</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('e')">e</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="clearCalc()">C</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="backspaceKey()">
+                                            <i class="ri-delete-back-2-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            id="squareBtn" onclick="calculateSquare()">x<sup>2</sup></button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="calculateReciprocal()">1/x</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="calculateAbs()">|x|</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="calculateExp()">exp</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey(' mod ')">mod</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100" id="sqrtBtn"
+                                            onclick="calculateSqrt()">&sup2;&radic;x</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('(')">(</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey(')')">)</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('!')">n!</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('/')">&divide;</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class=" p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            id="powerBtn" onclick="pressKey('^')">x<sup>y</sup></button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('7')">7</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('8')">8</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('9')">9</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('*')">&times;</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            id="tenPowerBtn" onclick="pressKey('10^')">10<sup>x</sup></button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('4')">4</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('5')">5</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('6')">6</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('-')">-</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100" id="logBtn"
+                                            onclick="calculateLog()">log</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('1')">1</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('2')">2</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('3')">3</button></td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('+')">+</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100" id="lnBtn"
+                                            onclick="calculateLn()">ln</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="toggleSign()">±</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100 "
+                                            onclick="pressKey('0')">0</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-light w-100 h-100"
+                                            onclick="pressKey('.')">.</button>
+                                    </td>
+                                    <td class="p-0"><button type="button" class="btn btn-primary w-100 h-100"
+                                            onclick="calculate()">=</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Right: History Section -->
+            <div class="col-12 col-md-5 col-lg-3 d-flex flex-column align-items-start">
+                <div class="memorypart border-start ps-3 w-100" style="max-height: 600px; overflow-y: auto;">
+
+                    <!-- Toggle Buttons -->
+                    <div class="d-flex gap-2 mb-3">
+                        <button class="btn btn-outline-primary btn-sm" onclick="showSection('history')">History</button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="showSection('memory')">Memory</button>
+                    </div>
+
+                    <!-- History Section -->
+                    <div id="historySection">
+                        <h5 class="text-primary fw-bold">History</h5>
+                        <button type="button" class="btn btn-danger btn-sm mb-2" onclick="clearHistory()">Clear
+                            History</button>
+                        <ul id="historyList" class="list-unstyled small"></ul>
+                    </div>
+
+                    <!-- Memory Section (Initially Hidden) -->
+                    <div id="memorySection" class="d-none">
+                        <h5 class="text-secondary fw-bold">Memory</h5>
+                        <div><strong>Current:</strong> <span id="memoryDisplay">0</span></div>
+                        <hr class="my-2">
+                        <ul id="memoryList" class="list-unstyled small mb-0"></ul>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <script src="js/calculator.js"></script>
+    <script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@11.8.0/lib/browser/math.min.js"></script>
+</body>
+
+</html>
