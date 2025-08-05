@@ -5,8 +5,8 @@ function toggleAngleMode() {
     const btn = document.getElementById("angleModeBtn") as HTMLElement | null;
     if (!btn) return;
     currentAngleIndex = (currentAngleIndex + 1) % angleModes.length;
-    btn.textContent = angleModes[currentAngleIndex];
-}
+    btn.textContent = angleModes[currentAngleIndex] ?? '';
+};
 
 let isSecondInverse: boolean = false;
 let isHyperbolic: boolean = false;
