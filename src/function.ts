@@ -80,3 +80,6 @@ function basicFun(operationName: string): void {
     localStorage.setItem('calculations', result.toString());
     console.log(result);
 }
+
+(window as any).convertToDMS = convertToDMS;
+(window as any).basicFun = basicFun;

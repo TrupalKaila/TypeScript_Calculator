@@ -64,5 +64,7 @@ function basicFun(operationName) {
     localStorage.setItem('calculations', result.toString());
     console.log(result);
 }
+window.convertToDMS = convertToDMS;
+window.basicFun = basicFun;
 export {};
 //# sourceMappingURL=function.js.map

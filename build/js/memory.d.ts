@@ -1,2 +1,2 @@
-export declare function memoryAdd(): void;
+export {};
 //# sourceMappingURL=memory.d.ts.map

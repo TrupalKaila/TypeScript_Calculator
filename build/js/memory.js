@@ -1,4 +1,3 @@
-import { number } from "mathjs";
 let memoryStack = [];
 // Show History or Memory
 function showSection(section) {
@@ -43,7 +42,7 @@ function memoryClear() {
     localStorage.removeItem('memoryStack');
     renderMemory();
 }
-export function memoryAdd() {
+function memoryAdd() {
     var _a;
     const input = document.getElementById('calculations');
     if (!input || memoryStack.length === 0)
@@ -110,4 +109,12 @@ window.onload = () => {
         }
     }
 };
+window.showSection = showSection;
+window.memoryStore = memoryStore;
+window.memoryRecall = memoryRecall;
+window.memoryClear = memoryClear;
+window.memoryAdd = memoryAdd;
+window.memorySubtract = memorySubtract;
+window.clearHistory = clearHistory;
+export {};
 //# sourceMappingURL=memory.js.map

@@ -1,12 +1,14 @@
 const angleModes = ["DEG", "RAD", "GRAD"];
 let currentAngleIndex = 0;
 function toggleAngleMode() {
+    var _a;
     const btn = document.getElementById("angleModeBtn");
     if (!btn)
         return;
     currentAngleIndex = (currentAngleIndex + 1) % angleModes.length;
-    btn.textContent = angleModes[currentAngleIndex];
+    btn.textContent = (_a = angleModes[currentAngleIndex]) !== null && _a !== void 0 ? _a : '';
 }
+;
 let isSecondInverse = false;
 let isHyperbolic = false;
 function toggleSecondInverse() {
@@ -171,5 +173,10 @@ function calculateTrig(funcName) {
         alert("Math error.");
     }
 }
+window.toggleAngleMode = toggleAngleMode;
+window.toggleSecondInverse = toggleSecondInverse;
+window.toggleHyperbolic = toggleHyperbolic;
+window.updateTrigButtons = updateTrigButtons;
+window.calculateTrig = calculateTrig;
 export {};
 //# sourceMappingURL=trignometry.js.map

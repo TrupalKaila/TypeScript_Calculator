@@ -1,5 +1,14 @@
-import { evaluate } from 'mathjs'; // if using mathjs from npm
-import { pressKey, flag } from './main';
+import { calculateEpowX } from './complex-operation.js';
+import { calculateCube } from './complex-operation.js';
+import { calculateCbrt } from './complex-operation.js';
+import { calculateYRoot } from './complex-operation.js';
+import { calculateLogY } from './complex-operation.js';
+import { calculateLn } from './complex-operation.js';
+import { calculateLog } from './complex-operation.js';
+import { calculateSqrt } from './complex-operation.js';
+import { calculateSquare } from './complex-operation.js';
+import { calculateTwoPowerX } from './complex-operation.js';
+import { pressKey } from './main.js'
 export function calculate(): void {
     const input = document.getElementById('calculations') as HTMLInputElement | null;
 
@@ -7,17 +16,18 @@ export function calculate(): void {
 
     try {
         const expression = input.value;
-        const result = evaluate(expression); // Use imported function
-        input.value = result.toString(); // Ensure it's string
+        // Use global math.evaluate
+        const result = (window as any).math.evaluate(expression);
 
+        input.value = result.toString();
         localStorage.setItem('calculations', result.toString());
 
-        // Store history (assuming it's defined elsewhere or also imported)
-        addToHistory(expression, result);
+        addToHistory(expression, result); // assuming this is defined
     } catch (e) {
         alert("Invalid expression");
     }
 }
+
 
 function addToHistory(expression: string, result: number): void {
     const stored = localStorage.getItem('history');
@@ -45,7 +55,7 @@ export function renderHistory(): void {
 // Call renderHistory() on page load
 document.addEventListener('DOMContentLoaded', renderHistory);
 
-export function toggleSign(): void {
+function toggleSign(): void {
     const input = document.getElementById('calculations') as HTMLInputElement | null;
     if (!input) return;
 
@@ -61,7 +71,6 @@ export function toggleSign(): void {
     localStorage.setItem('calculations', value);
 }
 
-
 export function clearCalc(): void {
     const input = document.getElementById('calculations') as HTMLInputElement | null;
     if (!input) return;
@@ -72,106 +81,9 @@ export function clearCalc(): void {
 let isExponential: boolean = false; // tracks current display format
 let lastNumericValue: number | null = null; // stores base number before switching
 
-export function toggleExponential(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const value: string = input.value;
-
-    if (!isExponential) {
-        // Convert to exponential if valid number
-        const num = parseFloat(value);
-        if (!isNaN(num) && value !== "") {
-            lastNumericValue = num;
-            input.value = num.toExponential(5);
-            isExponential = true;
-        }
-    } else {
-        // Revert to standard format
-        if (lastNumericValue !== null) {
-            input.value = lastNumericValue.toString();
-            isExponential = false;
-        }
-    }
-
-    localStorage.setItem('calculations', input.value);
-}
-
-function calculateLn(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-    let value = parseFloat(input.value);
-    if (isNaN(value) || value <= 0) {
-        alert("Invalid input for ln");
-        return;
-    }
-    let result = Math.log(value);
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
-export function calculateLog(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const value: number = parseFloat(input.value);
-    if (isNaN(value) || value <= 0) {
-        alert("Invalid input for log");
-        return;
-    }
-
-    const result: number = Math.log10(value);
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-export function calculateReciprocal(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const value: number = parseFloat(input.value);
-    if (isNaN(value) || value === 0) {
-        alert("Invalid input for reciprocal");
-        return;
-    }
-
-    const result: number = 1 / value;
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
-function calculateSqrt(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const value: number = parseFloat(input.value);
-    if (isNaN(value) || value < 0) {
-        alert("Invalid input for square root");
-        return;
-    }
-
-    const result: number = Math.sqrt(value);
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
-function calculateSquare(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const value: number = parseFloat(input.value);
-    if (isNaN(value)) {
-        alert("Invalid input for square");
-        return;
-    }
-
-    const result: number = value * value;
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
 let isSecond: boolean = false;
 
-export function toggleSecond(): void {
+function toggleSecond(): void {
     isSecond = !isSecond;
 
     const secondBtn = document.getElementById('secondBtn') as HTMLElement | null;
@@ -216,133 +128,9 @@ export function toggleSecond(): void {
     }
 }
 
-function calculateAbs(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const value: number = parseFloat(input.value);
-    if (isNaN(value)) {
-        alert("Enter a valid number");
-        return;
-    }
-
-    const result: number = Math.abs(value);
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
-function calculateEpowX(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const value: number = parseFloat(input.value);
-    if (isNaN(value)) {
-        alert("Enter a valid number.");
-        return;
-    }
-
-    const result: number = Math.exp(value); // e^x
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
-function calculateExp(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const value: number = parseFloat(input.value);
-    if (isNaN(value)) {
-        alert("Enter a valid number.");
-        return;
-    }
-
-    const result: string = value.toExponential(5); // Use fixed precision
-    input.value = result;
-    localStorage.setItem('calculations', result);
-}
-
-function calculateCube(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const value: number = parseFloat(input.value);
-    if (isNaN(value)) {
-        alert("Invalid input for cube");
-        return;
-    }
-
-    const result: number = Math.pow(value, 3);
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
-function calculateCbrt(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const value: number = parseFloat(input.value);
-    if (isNaN(value)) {
-        alert("Invalid input for cube root");
-        return;
-    }
-
-    const result: number = Math.cbrt(value);
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
-function calculateYRoot(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const x: number = parseFloat(input.value);
-    const yRaw: string | null = prompt("Enter root degree (y):");
-    const y: number = yRaw !== null ? parseFloat(yRaw) : NaN;
-
-    if (isNaN(x) || isNaN(y) || y === 0) {
-        alert("Invalid input for y√x");
-        return;
-    }
-
-    const result: number = Math.pow(x, 1 / y);
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
-function calculateTwoPowerX(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const x: number = parseFloat(input.value);
-    if (isNaN(x)) {
-        alert("Invalid input for 2^x");
-        return;
-    }
-
-    const result: number = Math.pow(2, x);
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
-export function calculateLogY(): void {
-    const input = document.getElementById('calculations') as HTMLInputElement | null;
-    if (!input) return;
-
-    const x: number = parseFloat(input.value);
-    const yRaw: string | null = prompt("Enter base (y):");
-    const y: number = yRaw !== null ? parseFloat(yRaw) : NaN;
-
-    if (isNaN(x) || isNaN(y) || y <= 0 || x <= 0) {
-        alert("Invalid input for logy(x)");
-        return;
-    }
-
-    const result: number = Math.log(x) / Math.log(y);
-    input.value = result.toString();
-    localStorage.setItem('calculations', result.toString());
-}
-
-
-// yroot(x)
-//logy(x)
-//->deg
+(window as any).calculate = calculate;
+(window as any).addToHistory = addToHistory;
+(window as any).renderHistory = renderHistory;
+(window as any).toggleSign = toggleSign;
+(window as any).clearCalc = clearCalc;
+(window as any).toggleSecond = toggleSecond;

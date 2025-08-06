@@ -1,6 +1,6 @@
-import { calculate } from './calculator';
-import { clearCalc } from './calculator';
-import { renderHistory } from './calculator';
+import { clearCalc } from './calculator.js';
+import { renderHistory } from './calculator.js';
+import { calculate } from './calculator.js';
 export let flag = 0;
 export function pressKey(char) {
     const input = document.getElementById('calculations');
@@ -9,6 +9,16 @@ export function pressKey(char) {
     if (!input)
         return;
     let current = input.value;
+    // Prevent multiple dots in a number
+    if (char === '.') {
+        // Find the last operator in the string
+        const lastOpIndex = Math.max(current.lastIndexOf('+'), current.lastIndexOf('-'), current.lastIndexOf('*'), current.lastIndexOf('/'));
+        // Get the current number segment
+        const lastNumber = current.slice(lastOpIndex + 1);
+        if (lastNumber.includes('.')) {
+            return; // Already has a dot, do nothing
+        }
+    }
     // Handle pi
     if (char === 'pi') {
         if (current == "0" && flag == 0) {
@@ -69,4 +79,10 @@ function clearHistory() {
     localStorage.removeItem('history');
     renderHistory();
 }
+window.pressKey = pressKey;
+window.clearCalc = clearCalc;
+window.renderHistory = renderHistory;
+window.calculate = calculate;
+window.backspaceKey = backspaceKey;
+window.clearHistory = clearHistory;
 //# sourceMappingURL=main.js.map

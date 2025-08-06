@@ -147,3 +147,9 @@ function calculateTrig(funcName: string): void {
         alert("Math error.");
     }
 }
+
+(window as any).toggleAngleMode = toggleAngleMode;
+(window as any).toggleSecondInverse = toggleSecondInverse;
+(window as any).toggleHyperbolic = toggleHyperbolic;
+(window as any).updateTrigButtons = updateTrigButtons;
+(window as any).calculateTrig = calculateTrig;

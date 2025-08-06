@@ -1,6 +1,6 @@
-import { calculate } from './calculator';
-import { clearCalc } from './calculator';
-import { renderHistory } from './calculator';
+import { clearCalc } from './calculator.js';
+import { renderHistory } from './calculator.js';
+import { calculate } from './calculator.js';
 
 export let flag: number = 0;
 export function pressKey(char: string): void {
@@ -12,6 +12,21 @@ export function pressKey(char: string): void {
 
     let current: string = input.value;
 
+    // Prevent multiple dots in a number
+    if (char === '.') {
+        // Find the last operator in the string
+        const lastOpIndex: number = Math.max(
+            current.lastIndexOf('+'),
+            current.lastIndexOf('-'),
+            current.lastIndexOf('*'),
+            current.lastIndexOf('/')
+        );
+        // Get the current number segment
+        const lastNumber: string = current.slice(lastOpIndex + 1);
+        if (lastNumber.includes('.')) {
+            return; // Already has a dot, do nothing
+        }
+    }
     // Handle pi
     if (char === 'pi') {
         if (current == "0" && flag == 0) {
@@ -79,3 +94,10 @@ function clearHistory() {
     localStorage.removeItem('history');
     renderHistory();
 }
+
+(window as any).pressKey = pressKey;
+(window as any).clearCalc = clearCalc;
+(window as any).renderHistory = renderHistory;
+(window as any).calculate = calculate;
+(window as any).backspaceKey = backspaceKey;
+(window as any).clearHistory = clearHistory;

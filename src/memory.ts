@@ -1,7 +1,4 @@
-import { number } from "mathjs";
-
 let memoryStack: number[] = [];
-
 // Show History or Memory
 function showSection(section: string): void {
     const historybtn = document.getElementById('historySection');
@@ -48,7 +45,7 @@ function memoryClear(): void {
     renderMemory();
 }
 
-export function memoryAdd(): void {
+function memoryAdd(): void {
     const input = document.getElementById('calculations') as HTMLInputElement | null;
     if (!input || memoryStack.length === 0) return;
 
@@ -62,8 +59,6 @@ export function memoryAdd(): void {
         renderMemory();
     }
 }
-
-
 
 // M- – Subtract from last memory value
 function memorySubtract(): void {
@@ -123,3 +118,11 @@ window.onload = (): void => {
         }
     }
 };
+
+(window as any).showSection = showSection;
+(window as any).memoryStore = memoryStore;
+(window as any).memoryRecall = memoryRecall;
+(window as any).memoryClear = memoryClear;
+(window as any).memoryAdd = memoryAdd;
+(window as any).memorySubtract = memorySubtract;
+(window as any).clearHistory = clearHistory;
